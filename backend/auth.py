@@ -5,22 +5,13 @@ from datetime import datetime , timedelta
 from jose import JWTError ,jwt
 from passlib.context import CryptContext
 import models
+from data import db
 
 SECRET_KEY = "7405114844cf1cc085f408c2d33561cacbcb8530499feabc295df77970d70aeb"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 
-db = {
-    "admin": {
-        "phone" : "admin",
-        "full_name": "admin admin",
-        "email":"admin@email.com",
-        "hashed_password" : "$2b$12$fhADMwigzjfkEja34vtCJ.2yrdMXUoXMoHCXNr6gmSMWUfEHjBuI2" , #The password is admin
-        "disabled" : False,
-        "role":"admin"
-    }
-}
 
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/token")

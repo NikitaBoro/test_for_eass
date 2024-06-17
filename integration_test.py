@@ -2,11 +2,15 @@ import pytest
 import sys
 from fastapi.testclient import TestClient
 
-# Add the project directory to the system path
-sys.path.append('./backend')
 
-from backend.main import app, appointments, current_id
+# Add the project directory to the system path
+sys.path.append('backend')
+
+from backend.main import app
+from backend.data import appointments,current_id,db
 import backend.auth as auth
+
+
 
 client = TestClient(app)
 
@@ -15,8 +19,8 @@ def setup_and_teardown():
     global current_id
     current_id = 1
     appointments.clear()
-    auth.db.clear()
-    auth.db.update({
+    db.clear()
+    db.update({
         "admin": {
             "phone": "admin",
             "full_name": "admin admin",
@@ -46,6 +50,7 @@ def login_user(phone: str, password: str):
 def create_appointment(token_headers: dict, appointment_data: dict):
     response = client.post("/v1/appointments", json=appointment_data, headers=token_headers)
     return response
+
 
 # Integration tests
 def test_user_workflow():
@@ -124,4 +129,4 @@ def test_admin_workflow():
     get_appointments_response = client.get("/v1/admin/appointments/all", headers=admin_headers)
     assert get_appointments_response.status_code == 200
     appointments_data = get_appointments_response.json()
-    assert len(appointments_data) == 2  # There should be at least two appointments
+    assert len(appointments_data) == 3

@@ -13,7 +13,7 @@ def create_appointment(appointment:models.Appointment,current_user:models.UserIn
     appointment.id = current_id
     appointment.phone = current_user.phone
     appointment.name = current_user.full_name
-    appointments.append(appointment.dict())
+    appointments.append(appointment.model_dump())
     current_id+=1
     return appointment
 
@@ -38,7 +38,7 @@ def update_appointment(id: int, updated_appointment: models.Appointment, current
                 updated_appointment.id = id
                 updated_appointment.phone = a["phone"]
                 updated_appointment.name = a["name"]
-                appointments[appointments.index(a)] = updated_appointment.dict()
+                appointments[appointments.index(a)] = updated_appointment.model_dump()
                 return updated_appointment
             else:
                 raise HTTPException(status_code=403, detail="Not authorized to update this appointment")

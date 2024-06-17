@@ -9,19 +9,19 @@ router = APIRouter()
 # Get all users
 @router.get("/users")
 def read_all_users(current_user:models.User = Depends(auth.get_current_active_admin)):
-    return [models.User(**user_data) for user_data in auth.db.values()] 
+    return [models.User(**user_data) for user_data in db.values()] 
 
 #A dmin delete user
 @router.delete("/users/{phone}", response_model=models.User)
 def delete_user(phone: str, current_user: models.UserInDB = Depends(auth.get_current_active_admin)):
-    if phone in auth.db:
+    if phone in db:
         updated_appointments = []
         for appointment in appointments:
             if appointment["phone"] != phone:
                 updated_appointments.append(appointment)
 
         appointments[:] = updated_appointments
-        user = auth.db.pop(phone)
+        user = db.pop(phone)
         return models.UserInDB(**user)
     raise HTTPException(status_code=404, detail="User not found")
 

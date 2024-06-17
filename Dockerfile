@@ -6,12 +6,7 @@ COPY ./backend/requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY ./backend/main.py .
-COPY ./backend/models.py .
-COPY ./backend/auth.py .
-COPY ./backend/routes/user_route.py .
-COPY ./backend/routes/appointments_route.py .
-COPY ./backend/routes/admin_route.py .
+COPY ./backend/ ./
 
 EXPOSE 8000
 

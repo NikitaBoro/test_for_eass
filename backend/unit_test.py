@@ -1,7 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
-from main import app,appointments, current_id
-import auth
+from main import app
+from data import appointments,current_id,db
+import auth as auth
+
+
 
 client = TestClient(app)
 
@@ -11,8 +14,8 @@ def setup_and_teardown():
     global current_id
     current_id = 1
     appointments.clear()
-    auth.db.clear()
-    auth.db.update({
+    db.clear()
+    db.update({
         "admin": {
             "phone": "admin",
             "full_name": "admin admin",
